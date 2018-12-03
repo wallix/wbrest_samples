@@ -11,6 +11,9 @@
     <OutputPath>.</OutputPath>
     <Name>wbshorchut</Name>
     <RootNamespace>wbshorchut</RootNamespace>
+    <LaunchProvider>Standard Python launcher</LaunchProvider>
+    <CommandLineArguments>--user admin --password W@llix2012 --device win2kr16 --account administrator --filename target.rdp --bastion bastion.acme.net --resolution fullscreen</CommandLineArguments>
+    <EnableNativeCodeDebugging>False</EnableNativeCodeDebugging>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)' == 'Debug' ">
     <DebugSymbols>true</DebugSymbols>
