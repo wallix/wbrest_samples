@@ -147,13 +147,14 @@ def main():
     payload = (args.user, password)
     bastion = args.bastion
     device = args.device
+    application = args.application
     account = args.account
     domain = args.domain
     filename = args.filename
 
     with Session() as s:
         s.verify = False
-        url = "https://" + bastion + "/api/sessionrights?q={}".format(device)
+        url = "https://" + bastion + "/api/sessionrights?q={}".format(device if device else application)
         r = s.get(url, auth=payload)
         if r and r.status_code == 200:
             body = r.json()
@@ -171,11 +172,14 @@ def main():
             if right['type'] != 'device' and device:
                 print("error: no matching device", file=sys.stderr)
                 sys.exit(1)
+            elif right['type'] != 'application' and application:
+                print("error: no matching application", file=sys.stderr)
+                sys.exit(1)
 
             target = get_target(args.user, right)
 
             generate_rdp_config_file(filename, parameters, target, bastion,
-                                    right['subprotocols'], application_cn=None, remoteapp=None)
+                                    right['subprotocols'], application_cn=application, remoteapp=None)
         else:
             body = r.json()
             print("error:{:d}:{}".format(r.status_code, body['reason']))
